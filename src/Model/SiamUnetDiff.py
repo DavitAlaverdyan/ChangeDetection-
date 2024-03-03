@@ -93,7 +93,7 @@ class SiamUnetDiff(Layer):
 
         self.pool = MaxPool2D(pool_size=(2, 2))
 
-    def call(self, x1, x2):
+	def call(self, x1, x2):
         """Forward pass of the SiamUnetDiff model.
 
         Args:
