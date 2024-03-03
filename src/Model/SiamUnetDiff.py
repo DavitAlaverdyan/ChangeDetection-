@@ -104,93 +104,93 @@ class SiamUnetDiff(Layer):
             tf.Tensor: Output tensor representing the segmentation result.
         """
         x11 = self.bn1(self.drop1(self.c1(x1)))
-		x11 = self.c11(x11)
-		x11 = self.c111(x11)
-		y11 = self.pool(x11)
+	x11 = self.c11(x11)
+	x11 = self.c111(x11)
+	y11 = self.pool(x11)
 
-		x21 = self.bn1(self.drop1(self.c1(x2)))
-		x21 = self.c11(x21)
-		x21 = self.c111(x21)
-		y21 = self.pool(x21)
-		
-		#stage 2
-		x12 = self.bn2(self.drop2(self.c2(y11)))
-		x12 = self.c22(x12)
-		x12 = self.c222(x12)
-		y12 = self.pool(x12) 
-		
-		x22 = self.bn2(self.drop2(self.c2(y21)))
-		x22 = self.c22(x22)
-		x22 = self.c222(x22)
-		y22 = self.pool(x22)       
-		
-		#stage 3 
-		x13 = self.bn3(self.drop3(self.c3(y12)))
-		x13 = self.c33(x13)
-		x13 = self.c333(x13)
-		x13 = self.c3333(x13) 
-		y13 = self.pool(x13)
-		
-		x23 = self.bn3(self.drop3(self.c3(y22)))
-		x23 = self.c33(x23)
-		x23 = self.c333(x23)
-		x23 = self.c3333(x23) 
-		y23 = self.pool(x23)
-		
-		#stage 4 
-		x14 = self.bn4(self.c4(y13))
-		x14 = self.c44(x14)
-		x14 = self.c444(x14)
-		x14 = self.c4444(x14)     
-		y14 = self.pool(x14)
-		
-		x24 = self.bn4(self.c4(y23))
-		x24 = self.c44(x24)
-		x24 = self.c444(x24)
-		x24 = self.c4444(x24) 
-		y24 = self.pool(x24)
-		
-		#stage 5
-		x15 = self.bn5(self.drop5(self.c5(y14)))
-		x15 = self.c55(x15)
-		x15 = self.c555(x15)
-		y15 = self.pool(x15) 
-		
-		x25 = self.bn5(self.drop5(self.c5(y24)))
-		x25 = self.c55(x25)
-		x25 = self.c555(x25)
-		y25 = self.pool(x25)   
-		
-		#stage 5d
-		p1 = self.ct1(y15)
-		p1 = self.cv1(concatenate([p1, tf.abs(x25 - x15)]))
-		p1 = self.dr1(p1)
-		p1 = self.cv11(p1)
-		p1 = self.cv111(p1)
-		
-		#stage 4d
-		p2 = self.ct2(p1)
-		p2 = self.cv2(concatenate([p2, tf.abs(x24 - x14)]))
-		p2 = self.dr2(p2)
-		p2 = self.cv22(p2)
-		p2 = self.cv222(p2)
-		
-		#stage 3d
-		p3 = self.ct3(p2)
-		p3 = self.cv3(concatenate([p3, tf.abs(x23 - x13)]))
-		p3 = self.cv33(p3)
-		
-		#stage 2 d
-		p4 = self.ct4(p3)
-		p4 = self.cv4(concatenate([p4, tf.abs(x22 - x12)]))
-		p4 = self.dr4(p4)
-		p4 = self.cv44(p4)
-		
-		#stage 1 d
-		p5 = self.ct5(p4)
-		p5 = self.cv5(concatenate([p5, tf.abs(x21 - x11)]))
-		p5 = self.dr5(p5)
-		p5 = self.cv55(p5)
-		
-		
-		return p5
+	x21 = self.bn1(self.drop1(self.c1(x2)))
+	x21 = self.c11(x21)
+	x21 = self.c111(x21)
+	y21 = self.pool(x21)
+	
+	#stage 2
+	x12 = self.bn2(self.drop2(self.c2(y11)))
+	x12 = self.c22(x12)
+	x12 = self.c222(x12)
+	y12 = self.pool(x12) 
+	
+	x22 = self.bn2(self.drop2(self.c2(y21)))
+	x22 = self.c22(x22)
+	x22 = self.c222(x22)
+	y22 = self.pool(x22)       
+	
+	#stage 3 
+	x13 = self.bn3(self.drop3(self.c3(y12)))
+	x13 = self.c33(x13)
+	x13 = self.c333(x13)
+	x13 = self.c3333(x13) 
+	y13 = self.pool(x13)
+	
+	x23 = self.bn3(self.drop3(self.c3(y22)))
+	x23 = self.c33(x23)
+	x23 = self.c333(x23)
+	x23 = self.c3333(x23) 
+	y23 = self.pool(x23)
+	
+	#stage 4 
+	x14 = self.bn4(self.c4(y13))
+	x14 = self.c44(x14)
+	x14 = self.c444(x14)
+	x14 = self.c4444(x14)     
+	y14 = self.pool(x14)
+	
+	x24 = self.bn4(self.c4(y23))
+	x24 = self.c44(x24)
+	x24 = self.c444(x24)
+	x24 = self.c4444(x24) 
+	y24 = self.pool(x24)
+	
+	#stage 5
+	x15 = self.bn5(self.drop5(self.c5(y14)))
+	x15 = self.c55(x15)
+	x15 = self.c555(x15)
+	y15 = self.pool(x15) 
+	
+	x25 = self.bn5(self.drop5(self.c5(y24)))
+	x25 = self.c55(x25)
+	x25 = self.c555(x25)
+	y25 = self.pool(x25)   
+	
+	#stage 5d
+	p1 = self.ct1(y15)
+	p1 = self.cv1(concatenate([p1, tf.abs(x25 - x15)]))
+	p1 = self.dr1(p1)
+	p1 = self.cv11(p1)
+	p1 = self.cv111(p1)
+	
+	#stage 4d
+	p2 = self.ct2(p1)
+	p2 = self.cv2(concatenate([p2, tf.abs(x24 - x14)]))
+	p2 = self.dr2(p2)
+	p2 = self.cv22(p2)
+	p2 = self.cv222(p2)
+	
+	#stage 3d
+	p3 = self.ct3(p2)
+	p3 = self.cv3(concatenate([p3, tf.abs(x23 - x13)]))
+	p3 = self.cv33(p3)
+	
+	#stage 2 d
+	p4 = self.ct4(p3)
+	p4 = self.cv4(concatenate([p4, tf.abs(x22 - x12)]))
+	p4 = self.dr4(p4)
+	p4 = self.cv44(p4)
+	
+	#stage 1 d
+	p5 = self.ct5(p4)
+	p5 = self.cv5(concatenate([p5, tf.abs(x21 - x11)]))
+	p5 = self.dr5(p5)
+	p5 = self.cv55(p5)
+	
+	
+	return p5
